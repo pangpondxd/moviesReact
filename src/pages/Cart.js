@@ -1,29 +1,16 @@
 import React, { useState, useEffect } from "react";
-import {notification} from 'antd'
+import { Modal, Button } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import ProductCardInCheckout from "../components/cards/ProductCardInCheckout";
-import Countdown from "antd/lib/statistic/Countdown";
-
+import "../cart.css";
 const Cart = () => {
-    const [time, setTime] = useState(60);
-
   const { cart } = useSelector((state) => ({ ...state }));
-
-  useEffect(() => {
-    if (time <= 0) return;
-    setTimeout(() => {
-      setTime(time - 1);
-    }, 1000);
-  });
-
-
   const getTotal = () => {
     return cart.reduce((currentValue, nextValue) => {
       return currentValue + nextValue.count * nextValue.price;
     }, 0);
   };
-
 
   const showCartItems = () => (
     <table className="table table-bordered">
@@ -43,24 +30,32 @@ const Cart = () => {
     </table>
   );
 
-  const countdownHandle = () => {
-  return (
-    <Countdown title="Countdown" value={60} />
-  )
-}
-
-notification.config({
-    duration: 60,
-  });
-
-  const openNotificationWithIcon = type => {
-    notification['success']({
-      message: 'สั่งซื้อสำเร็จแล้ว',
-      description:
-        `กรุณาชำระเงิน พ้อมเพย์ 0658678035
-          ภายในเวลา ${time} วินาที`,
+  function countDown() {
+    let secondsToGo = 5;
+    const modal = Modal.warn({
+      title: "ทำการชำระเงิน",
+      okText: "Cancel",
     });
-  };
+    const timer = setInterval(() => {
+      secondsToGo -= 1;
+      if (secondsToGo === 0) {
+      console.log("🚀 ~ file: Cart.js ~ line 57 ~ timer ~ secondsToGo", secondsToGo)
+        const modalSuccess = Modal.warn({
+          title: "หมดเวลาการชำระเงิน",
+        });
+        modalSuccess.update({ content: "", zIndex: 1000 });
+      } else {
+        modal.update({
+          okText: "Cancel",
+          content: `กรุณาชำระเงิน พ้อมเพย์ 0658678035  ภายในเวลา ${secondsToGo} วินาที.`,
+        });
+      }
+    }, 1000);
+    setTimeout(() => {
+      clearInterval(timer);
+      modal.destroy();
+    }, secondsToGo * 1000);
+  }
 
   return (
     <div className="container-fluid pt-2">
@@ -90,13 +85,9 @@ notification.config({
           <hr />
           Total: <b>{getTotal()}</b>
           <hr />
-          <button
-            onClick={openNotificationWithIcon}
-            className="btn btn-sm btn-warning mt-2"
-            disabled={!cart.length}
-          >
-            Pay Cash by Bank Transfer
-          </button>
+          <Button type="primary" onClick={countDown}>
+            PAY CASH BY BANK TRANSFER
+          </Button>
         </div>
       </div>
     </div>
