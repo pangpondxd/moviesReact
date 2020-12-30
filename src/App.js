@@ -1,12 +1,29 @@
-import React from 'react'
-import Movie from './components/Movie';
+import React, {lazy, Suspense} from 'react'
+import { Switch, Route } from "react-router-dom";
+import { LoadingOutlined } from "@ant-design/icons";
+
+const SideDrawer = lazy (() => import('./components/drawer/SideDrawer'))
+const Movie = lazy (() => import('./pages/Movie'))
+const Cart = lazy (() => import('./pages/Cart'))
+const Navbar = lazy (() => import('./components/navbar/Navbar'))
 const App = () => {
 
   return (
-    <div>
-      <h1>Movie Page</h1>
-      <Movie />
-    </div>
+      <Suspense
+      fallback={
+        <div className="col text-center p-5">
+          __ Movies
+          <LoadingOutlined />
+          Hitz __
+        </div>
+      }>
+      <Navbar />
+      <SideDrawer />
+      <Switch>
+      <Route exact path="/" component={Movie} />
+      <Route exact path="/cart" component={Cart} />
+      </Switch> 
+      </Suspense>
   );
 }
 
