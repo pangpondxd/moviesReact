@@ -2,7 +2,7 @@ import React, {lazy, Suspense} from 'react'
 import { Switch, Route } from "react-router-dom";
 import { LoadingOutlined } from "@ant-design/icons";
 
-const SideDrawer = lazy (() => import('./components/drawer/SideDrawer'))
+
 const Movie = lazy (() => import('./pages/Movie'))
 const Cart = lazy (() => import('./pages/Cart'))
 const Navbar = lazy (() => import('./components/navbar/Navbar'))
@@ -18,7 +18,6 @@ const App = () => {
         </div>
       }>
       <Navbar />
-      <SideDrawer />
       <Switch>
       <Route exact path="/" component={Movie} />
       <Route exact path="/cart" component={Cart} />

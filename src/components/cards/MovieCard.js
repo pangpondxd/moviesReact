@@ -2,7 +2,7 @@ import React from 'react'
 import {Card, notification} from 'antd'
 import { useDispatch } from "react-redux";
 import _ from 'lodash'
-
+import './MovieCard.css'
 const {Meta} = Card
 
 const MovieCard = ({ product }) => {
@@ -53,9 +53,10 @@ const MovieCard = ({ product }) => {
 
     return (
         <Card
+        className="zoom"
         hoverable
         onClick={handleAddToCart}
-        style={{ width: 240 }}
+        style={{ width: 240, backgroundColor: '#fafafa' }}
         cover={<img alt="example" src={`https://image.tmdb.org/t/p/w500/` + poster_path} />}
       >
         <Meta title={title} description={vote_average} />

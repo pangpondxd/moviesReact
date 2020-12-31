@@ -1,0 +1,13 @@
+.ant-modal-mask{
+    background-color: rgba(0, 0, 0, 0);
+  }
+  .ant-modal{
+    position: absolute;
+    right: 20px;
+    top: 30px;
+    height: 200px;
+    width: 400px;
+  }
+/* .ant-modal-confirm-btns{
+  display: none;
+} */

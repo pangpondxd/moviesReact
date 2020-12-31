@@ -7,8 +7,17 @@ import "../cart.css";
 const Cart = () => {
   const { cart } = useSelector((state) => ({ ...state }));
   const getTotal = () => {
+    if(cart.length > 0 && cart.length <= 3)
     return cart.reduce((currentValue, nextValue) => {
       return currentValue + nextValue.count * nextValue.price;
+    }, 0);
+    if(cart.length > 3 && cart.length <= 5)
+    return cart.reduce((currentValue, nextValue) => {
+      return (currentValue + nextValue.count * nextValue.price) - (nextValue.count * nextValue.price * 0.1);
+    }, 0);
+    if(cart.length > 5)
+    return cart.reduce((currentValue, nextValue) => {
+      return (currentValue + nextValue.count * nextValue.price) - (nextValue.count * nextValue.price * 0.2);
     }, 0);
   };
 
@@ -31,7 +40,7 @@ const Cart = () => {
   );
 
   function countDown() {
-    let secondsToGo = 5;
+    let secondsToGo = 60;
     const modal = Modal.warn({
       title: "ทำการชำระเงิน",
       okText: "Cancel",
@@ -56,10 +65,12 @@ const Cart = () => {
       modal.destroy();
     }, secondsToGo * 1000);
   }
-
+  const style = {
+      paddingTop: '4rem'
+  }
   return (
     <div className="container-fluid pt-2">
-      <div className="row">
+      <div className="row" style={style}>
         <div className="col-md-8">
           <h4>Cart / {cart.length} Product</h4>
 
