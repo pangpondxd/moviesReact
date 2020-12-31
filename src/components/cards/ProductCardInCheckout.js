@@ -6,7 +6,6 @@ import {
 } from "@ant-design/icons";
 
 const ProductCardInCheckout = ({ p }) => {
-  const [price, setPrice] = useState()
   let dispatch = useDispatch();
   const handleQuantityChange = (e) => {
     // console.log("available quantity", p.quantity);
@@ -19,6 +18,7 @@ const ProductCardInCheckout = ({ p }) => {
         cart = JSON.parse(localStorage.getItem("cart"));
       }
 
+      // eslint-disable-next-line array-callback-return
       cart.map((product, i) => {
         if (product.id === p.id) {
           cart[i].count = count;
@@ -40,13 +40,13 @@ const ProductCardInCheckout = ({ p }) => {
         cart = JSON.parse(localStorage.getItem("cart"));
       }
 
+      // eslint-disable-next-line array-callback-return
       cart.map((product, i) => {
         if (product.id === p.id) {
           cart[i].price =  e.target.value;
         }
       });
 
-      //  console.log('cart udpate color', cart)
       localStorage.setItem("cart", JSON.stringify(cart));
       dispatch({
         type: "ADD_TO_CART",
@@ -64,6 +64,7 @@ const ProductCardInCheckout = ({ p }) => {
         cart = JSON.parse(localStorage.getItem("cart"));
       }
       // [1,2,3,4,5]
+      // eslint-disable-next-line array-callback-return
       cart.map((product, i) => {
         if (product.id === p.id) {
           cart.splice(i, 1);
